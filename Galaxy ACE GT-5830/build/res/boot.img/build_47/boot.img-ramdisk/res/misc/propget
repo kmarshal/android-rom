@@ -1,0 +1,20 @@
+#!/sbin/busybox sh
+
+# getprop alternative
+# Ketut P. Kumajaya, Sept 2011
+
+/sbin/busybox mkdir -p /data/prop
+
+if [ "$1" = "" ]; then
+  for i in $(ls /data/prop/*)
+  do 
+    echo "[`echo $i | cut -d "/" -f4`]: [`cat $i`]"
+  done
+else
+  if [ -f /data/prop/$1 ]; then
+    echo `cat /data/prop/$1`
+  else
+    echo ""
+  fi
+fi;
+

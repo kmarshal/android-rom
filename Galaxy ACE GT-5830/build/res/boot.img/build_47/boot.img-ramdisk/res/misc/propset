@@ -1,0 +1,19 @@
+#!/sbin/busybox sh
+
+# setprop alternative
+# Ketut P. Kumajaya, Sept 2011
+
+usage="usage: propset <key> <value>"
+
+/sbin/busybox mkdir -p /data/prop
+
+if ! [ -d /data/prop/$1 ]; then
+  if ! [ "$2" = "" ]; then
+    echo -n $2 > /data/prop/$1
+  else
+    echo $usage
+  fi
+else
+  echo $usage
+fi
+

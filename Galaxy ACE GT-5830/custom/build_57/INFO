@@ -1,0 +1,25 @@
+WERSJA:      Android 2.3.6
+BOOT.IMG:    CF-Root-S5830-v3.7-b84.zip
+SYSTEM.IMG:  S5830XWKTR_S5830XSKLI1_XSK.zip
+INSTALACJA:  CWM
+
+INFO:
+    ROM złożony z CF-Root + system.img ze stock-owego ROMu Samsunga.
+    Zrootowany z busybox. Niektóre aplikcje nie widzą busyboxa (np. SolidExplorer) trzeba to poprawić.
+
+
+CHANGELOG:
+
+GT-5830 (build_57)
+    * montowanie karty SD (sd-ext) do /mnt/sd-ext
+    * przeniesienie katalogów /data/dalvik-cache, /data/cache, /data/app na sd-ext (linki symboliczne)
+    * musiałem ususnąć klika aplikacji systemowych bo brakowało miejsca na instalację systemu. (Gmail.apk, Maps.apk)
+    * aplikacje dołączone do CF-Root (CWM, Superuser itp) zostają przeniesione na sd-ext/app podczas instalacji
+    * ustawiony domyślny język angielski
+    * zmiany w boot.img/sbin/boot/install.sh
+    * dodany plik boot.img/sbin/boot/sdext.sh (montuje sd-ext)
+    * zmiany w boot.img/init.rc (montowanie sd-ext, linki symboliczne do sd-ext)
+    * domyślny cpu_governor = ondemand
+
+ -- marshal Pon, 28 Sty 2013
+    

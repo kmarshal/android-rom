@@ -1,0 +1,42 @@
+#!/sbin/busybox sh
+
+# Multi CSC Tool
+# Ketut P. Kumajaya, Sept 2011
+
+if [ "$(id | grep -c uid=0)" != "1" ]; then
+  echo "You have no permission to run sec_csc."
+  exit 1;
+fi
+
+if ! [ "$1" = "" ]; then
+  if [ -d /system/csc/$1 ]; then
+    echo -n "Apply $1 sales code? y/N: "
+    read answer
+    if [ "$answer" = "y" ]; then
+      /sbin/busybox mount -o rw,remount /system
+      cp -f /system/csc/$1/system/CSCFiles.txt /system/
+      cp -f /system/csc/$1/system/CSCVersion.txt /system/
+      cp -f /system/csc/$1/system/csc/* /system/csc/
+      rm -f /data/property/persist.sys.country
+      rm -f /data/property/persist.sys.language
+      rm -f /data/property/persist.sys.localevar
+      echo -n $1 > /proc/LinuStoreIII/efs_info
+      setprop ril.sales_code $1
+      /sbin/busybox mount -o ro,remount /system
+      echo -n "Reboot to wipe data/Factory Data Reset? Y/n: "
+      read answer
+      if [ "$answer" = "Y" ]; then
+        echo -n "--wipe_data" > /cache/recovery/command
+        reboot recovery
+      else
+        echo "Wipe data to update APN settings."
+        echo "Reboot to apply the new CSC."
+      fi
+    fi
+  else
+    echo "$1 sales code not found."
+  fi
+else
+  echo "usage: sec_csc <sales code>"
+fi
+
